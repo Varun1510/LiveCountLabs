@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="YouTubeTracker Pricing - Simple, transparent pricing plans for all creators.">
+  <title>Pricing - YouTubeTracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #00d4ff;
+      --secondary: #0099ff;
+      --accent: #ff00ff;
+      --dark: #0a0e27;
+      --darker: #050812;
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--darker) 0%, #1a1f4a 50%, var(--darker) 100%);
+      color: #e0e0e0;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      backdrop-filter: blur(20px);
+      background: rgba(5, 8, 18, 0.8);
+      border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+      z-index: 1000;
+      padding: 1rem 0;
+    }
+
+    nav .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+      z-index: 2;
+      position: relative;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 3rem;
+      z-index: 2;
+      position: relative;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #a0a0a0;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    .btn-nav {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--dark);
+      padding: 0.7rem 1.8rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-nav:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 150px 2rem 100px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      font-weight: 900;
+      background: linear-gradient(120deg, var(--primary), var(--accent), var(--primary));
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientFlow 3s ease infinite;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #a0a0a0;
+      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Pricing Content */
+    .pricing-content {
+      padding: 80px 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-title {
+      font-size: 3rem;
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: #a0a0a0;
+      margin-bottom: 4rem;
+      font-size: 1.1rem;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+
+    .pricing-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      padding: 3rem;
+      border-radius: 20px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .pricing-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 40px rgba(0, 212, 255, 0.2);
+      transform: translateY(-15px);
+    }
+
+    .pricing-card.popular {
+      border: 2px solid var(--primary);
+      transform: scale(1.05);
+    }
+
+    .pricing-card.popular:hover {
+      transform: scale(1.05) translateY(-15px);
+    }
+
+    .price-badge {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: var(--dark);
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .pricing-card h3 {
+      font-size: 1.6rem;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .price {
+      font-size: 3.5rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 1.5rem 0;
+    }
+
+    .price-period {
+      color: #a0a0a0;
+      font-size: 0.95rem;
+    }
+
+    .price-description {
+      color: #a0a0a0;
+      margin: 1.5rem 0;
+      font-size: 0.95rem;
+    }
+
+    .features-list {
+      list-style: none;
+      margin: 2rem 0;
+    }
+
+    .features-list li {
+      padding: 0.8rem 0;
+      color: #a0a0a0;
+      border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 0.95rem;
+    }
+
+    .features-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--dark);
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 2rem;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+    }
+
+    /* FAQ Section */
+    .faq-section {
+      padding: 80px 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .faq-item {
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      padding: 2rem;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .faq-item:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 30px rgba(0, 212, 255, 0.15);
+    }
+
+    .faq-item h4 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .faq-item p {
+      color: #a0a0a0;
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    /* Footer */
+    footer {
+      padding: 3rem 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(0, 212, 255, 0.1);
+      color: #a0a0a0;
+      position: relative;
+      z-index: 2;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: var(--accent);
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        gap: 1.5rem;
+      }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pricing-card.popular {
+        transform: scale(1);
+      }
+
+      .pricing-card.popular:hover {
+        transform: translateY(-15px);
+      }
+
+      .faq-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="container">
+      <a href="/" class="logo">YouTube View Tracker</a>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="app.html" class="btn-nav">Launch App</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Simple, Transparent Pricing</h1>
+    <p>No hidden fees. Cancel anytime. Choose what's right for you.</p>
+  </section>
+
+  <!-- Pricing -->
+  <section class="pricing-content">
+    <div class="container">
+      <h2 class="section-title">Pricing Plans</h2>
+      <p class="section-subtitle">Start free. Upgrade anytime.</p>
+
+      <div class="pricing-grid">
+        <!-- Starter -->
+        <div class="pricing-card">
+          <h3>Starter</h3>
+          <div class="price">Free</div>
+          <div class="price-period">forever</div>
+          <div class="price-description">Perfect to get started</div>
+          <ul class="features-list">
+            <li>Track 3 videos</li>
+            <li>Email notifications</li>
+            <li>Basic charts</li>
+            <li>Community support</li>
+          </ul>
+          <a href="app.html" class="btn-primary">Get Started</a>
+        </div>
+
+        <!-- Pro -->
+        <div class="pricing-card popular">
+          <div class="price-badge">Popular</div>
+          <h3>Pro</h3>
+          <div class="price">$4.99</div>
+          <div class="price-period">per month</div>
+          <div class="price-description">For serious creators</div>
+          <ul class="features-list">
+            <li>Unlimited videos</li>
+            <li>All notifications</li>
+            <li>Advanced analytics</li>
+            <li>Custom alerts</li>
+            <li>Priority support</li>
+            <li>No ads</li>
+          </ul>
+          <a href="app.html" class="btn-primary">Start Free Trial</a>
+        </div>
+
+        <!-- Business -->
+        <div class="pricing-card">
+          <h3>Business</h3>
+          <div class="price">$14.99</div>
+          <div class="price-period">per month</div>
+          <div class="price-description">For teams & agencies</div>
+          <ul class="features-list">
+            <li>Everything in Pro</li>
+            <li>Team accounts</li>
+            <li>API access</li>
+            <li>Custom integrations</li>
+            <li>Dedicated support</li>
+            <li>White-label</li>
+          </ul>
+          <a href="app.html" class="btn-primary">Contact Sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="container">
+      <h2 class="section-title">Common Questions</h2>
+      <p class="section-subtitle">Everything you need to know</p>
+
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h4>Can I upgrade or downgrade?</h4>
+          <p>Yes! Change your plan anytime. Updates take effect immediately. No cancellation fees.</p>
+        </div>
+
+        <div class="faq-item">
+          <h4>Do you offer refunds?</h4>
+          <p>We offer 30-day money-back guarantee. If you're not satisfied, we'll refund your payment.</p>
+        </div>
+
+        <div class="faq-item">
+          <h4>What payment methods?</h4>
+          <p>We accept all major credit cards, PayPal, and bank transfers. Choose what works for you.</p>
+        </div>
+
+        <div class="faq-item">
+          <h4>Is there a contract?</h4>
+          <p>No contracts. Cancel anytime with one click. We believe in freedom for our users.</p>
+        </div>
+
+        <div class="faq-item">
+          <h4>Do you have annual plans?</h4>
+          <p>Yes! Pay annually and save 20% on Pro and Business plans. Great long-term savings.</p>
+        </div>
+
+        <div class="faq-item">
+          <h4>Need custom pricing?</h4>
+          <p>Contact our sales team for enterprise plans tailored to your specific needs and budget.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 YouTubeTracker. Made for creators.</p>
+      <p>
+        <a href="#">Privacy</a> • 
+        <a href="#">Terms</a> • 
+        <a href="#">Contact</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn about YouTube Live Count Tracker - Built by creators, for creators. Our mission is to help content creators track and grow their YouTube presence.">
+  <title>About Us - YouTube Live Count Tracker</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    /* Navigation */
+    nav {
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #667eea;
+    }
+
+    .btn-primary {
+      background: #667eea;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .btn-primary:hover {
+      background: #764ba2;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      opacity: 0.9;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* About Section */
+    .about {
+      padding: 4rem 2rem;
+      background: white;
+    }
+
+    .about-section {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .about-section h2 {
+      font-size: 2rem;
+      color: #667eea;
+      margin: 2rem 0 1rem 0;
+      border-left: 4px solid #667eea;
+      padding-left: 1rem;
+    }
+
+    .about-section p {
+      color: #666;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .value-card {
+      background: #f9f9f9;
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .value-card h3 {
+      color: #667eea;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+
+    .value-card p {
+      color: #666;
+    }
+
+    /* Stats */
+    .stats {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 3rem 2rem;
+      border-radius: 10px;
+      margin: 2rem 0;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .stat-item h3 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-item p {
+      opacity: 0.9;
+    }
+
+    /* Footer */
+    footer {
+      background: #333;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    footer a {
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="container">
+      <a href="/" class="logo">📊 YouTube Tracker</a>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="app.html" class="btn-primary">Launch App</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>About YouTube Tracker</h1>
+      <p>Built by creators, for creators</p>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about">
+    <div class="about-section">
+      <h2>Our Story</h2>
+      <p>We started YouTube Tracker because we needed a better way to monitor our own video performance. YouTube's native analytics are powerful, but they have delays and aren't optimized for real-time monitoring. We wanted instant notifications, automatic updates every 15 minutes, and beautiful charts that actually help us understand our growth.</p>
+
+      <h2>Our Mission</h2>
+      <p>To empower content creators with real-time insights into their YouTube performance. We believe every creator deserves access to professional-grade analytics tools, regardless of their channel size or budget.</p>
+
+      <h2>Why We Built This</h2>
+      <p>The YouTube Creator ecosystem needed a simpler, more accessible alternative to expensive analytics tools. We built YouTube Tracker to be:</p>
+
+      <div class="values-grid">
+        <div class="value-card">
+          <h3>Simple</h3>
+          <p>No complicated features. Just the stats you need, presented clearly.</p>
+        </div>
+        <div class="value-card">
+          <h3>Reliable</h3>
+          <p>Running 24/7 with 99.9% uptime. You can count on us.</p>
+        </div>
+        <div class="value-card">
+          <h3>Affordable</h3>
+          <p>Free for everyone to start. Premium for power users.</p>
+        </div>
+        <div class="value-card">
+          <h3>Fast</h3>
+          <p>Results in milliseconds. No lag, no delays.</p>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <h3>10,000+</h3>
+            <p>Active Users</p>
+          </div>
+          <div class="stat-item">
+            <h3>50,000+</h3>
+            <p>Videos Tracked</p>
+          </div>
+          <div class="stat-item">
+            <h3>1B+</h3>
+            <p>View Updates</p>
+          </div>
+          <div class="stat-item">
+            <h3>99.9%</h3>
+            <p>Uptime</p>
+          </div>
+        </div>
+      </div>
+
+      <h2>Our Values</h2>
+      <p><strong>Creator First:</strong> Every decision we make is guided by what's best for creators.</p>
+      <p><strong>Privacy:</strong> Your data is yours. We never sell it or share it with advertisers.</p>
+      <p><strong>Transparency:</strong> We're open about how we work and what we collect.</p>
+      <p><strong>Continuous Improvement:</strong> We listen to feedback and constantly improve our product.</p>
+
+      <h2>Join Our Community</h2>
+      <p>Whether you're a new creator just starting out or an experienced content creator managing multiple channels, YouTube Tracker is designed for you. Join thousands of creators who are using YouTube Tracker to understand and grow their YouTube presence.</p>
+
+      <p style="text-align: center; margin-top: 2rem;">
+        <strong>Ready to track your videos?</strong><br>
+        <a href="app.html" class="btn-primary" style="display: inline-block; margin-top: 1rem;">Launch Free Tracker</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 YouTube Live Count Tracker. All rights reserved.</p>
+      <p>
+        <a href="#">Privacy Policy</a> | 
+        <a href="#">Terms of Service</a> | 
+        <a href="#">Contact</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

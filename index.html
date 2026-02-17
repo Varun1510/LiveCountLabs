@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="YouTube View Tracker - Real-time YouTube video 
+  analytics and notifications. Monitor views, likes, and comments instantly">
+  <meta name="description" content="YouTube View Tracker Features - Real-time stats, email notifications every 15 minutes, 
+  beautiful growth charts, unlimited video tracking, and advanced analytics for creators.">
+  <title>YouTube View Tracker - Real-Time Analytics</title>
+  <meta name="description" content="YouTube View Tracker FAQ - Answers to common questions about tracking YouTube videos,
+  notifications, pricing, privacy, and how to use our analytics platform.">
+  <meta name="description" content="YouTube View Tracker App - Track YouTube videos in real-time. Add videos, view live statistics, 
+  get email notifications every 15 minutes, and analyze growth charts instantly.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #00d4ff;
+      --secondary: #0099ff;
+      --accent: #ff00ff;
+      --dark: #0a0e27;
+      --darker: #050812;
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--darker) 0%, #1a1f4a 50%, var(--darker) 100%);
+      color: #e0e0e0;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 1;
+      animation: gradientShift 8s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      backdrop-filter: blur(20px);
+      background: rgba(5, 8, 18, 0.8);
+      border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+      z-index: 1000;
+      padding: 1rem 0;
+    }
+
+    nav .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+      z-index: 2;
+      position: relative;
+      letter-spacing: -0.5px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 3rem;
+      z-index: 2;
+      position: relative;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #a0a0a0;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    nav a::before {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    nav a:hover::before {
+      width: 100%;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 150px 2rem 100px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      font-weight: 900;
+      letter-spacing: -2px;
+      background: linear-gradient(120deg, var(--primary), var(--accent), var(--primary));
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientFlow 3s ease infinite;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: #a0a0a0;
+      margin-bottom: 3rem;
+      line-height: 1.6;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Search Bar */
+    .search-section {
+      margin-bottom: 4rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .search-bar {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 1.2rem 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(0, 212, 255, 0.2);
+      border-radius: 15px;
+      color: #e0e0e0;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: rgba(0, 212, 255, 0.05);
+      box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+    }
+
+    .search-input::placeholder {
+      color: #a0a0a0;
+    }
+
+    .search-btn {
+      padding: 1.2rem 2.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--dark);
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+      white-space: nowrap;
+    }
+
+    .search-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 40px rgba(0, 212, 255, 0.4);
+    }
+
+    /* Stats */
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .stat {
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      padding: 2rem;
+      border-radius: 20px;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: #a0a0a0;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Features */
+    .features {
+      padding: 100px 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .features .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: #a0a0a0;
+      margin-bottom: 4rem;
+      font-size: 1.1rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      padding: 2.5rem;
+      border-radius: 20px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(0, 212, 255, 0.2), transparent);
+      border-radius: 50%;
+      transition: all 0.6s ease;
+    }
+
+    .feature-card:hover::before {
+      top: -30%;
+      right: -30%;
+    }
+
+    .feature-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+      transform: translateY(-10px);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .feature-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+      color: var(--primary);
+      font-weight: 700;
+      position: relative;
+      z-index: 2;
+    }
+
+    .feature-card p {
+      color: #a0a0a0;
+      line-height: 1.7;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Pricing */
+    .pricing {
+      padding: 100px 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .pricing .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+
+    .pricing-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      padding: 2.5rem;
+      border-radius: 20px;
+      transition: all 0.4s ease;
+      position: relative;
+    }
+
+    .pricing-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 40px rgba(0, 212, 255, 0.3);
+      transform: translateY(-15px);
+    }
+
+    .pricing-card.popular {
+      border: 2px solid var(--primary);
+      transform: scale(1.05);
+    }
+
+    .pricing-card.popular:hover {
+      transform: scale(1.05) translateY(-15px);
+    }
+
+    .price-badge {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: var(--dark);
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .pricing-card h3 {
+      font-size: 1.5rem;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .price {
+      font-size: 3rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 1.5rem 0;
+    }
+
+    .price-period {
+      color: #a0a0a0;
+      font-size: 0.9rem;
+    }
+
+    .features-list {
+      list-style: none;
+      margin: 2rem 0;
+    }
+
+    .features-list li {
+      padding: 0.8rem 0;
+      color: #a0a0a0;
+      border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 0.95rem;
+    }
+
+    .features-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .btn-price {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--dark);
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 2rem;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .btn-price:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+    }
+
+    /* CTA */
+    .cta {
+      padding: 100px 2rem;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .cta .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      padding: 4rem;
+      border-radius: 30px;
+    }
+
+    .cta h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+      font-weight: 900;
+    }
+
+    .cta p {
+      font-size: 1.1rem;
+      color: #a0a0a0;
+      margin-bottom: 2rem;
+    }
+
+    .cta .btn-primary {
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--dark);
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 1rem;
+    }
+
+    .cta .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+    }
+
+    /* Footer */
+    footer {
+      padding: 3rem 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(0, 212, 255, 0.1);
+      color: #a0a0a0;
+      position: relative;
+      z-index: 2;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: var(--accent);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav ul {
+        gap: 1.5rem;
+      }
+
+      .hero {
+        padding: 120px 2rem 50px;
+      }
+
+      .search-bar {
+        flex-direction: column;
+      }
+
+      .search-input,
+      .search-btn {
+        width: 100%;
+      }
+
+      .pricing-card.popular {
+        transform: scale(1);
+      }
+
+      .pricing-card.popular:hover {
+        transform: translateY(-15px);
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta .container {
+        padding: 2rem;
+      }
+    }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "YouTube View Tracker",
+  "description": "Track YouTube video views, likes, and comments in real-time with notifications.",
+  "url": "https://youtubelivecount.com",
+  "applicationCategory": "AnalyticsApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "ratingCount": "500"
+  }
+}
+</script>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="container">
+      <a href="/" class="logo">YouTube View Tracker</a>
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1>Real-Time YouTube Analytics</h1>
+      <p>Track video performance with live updates. Get notified every 15 minutes. Build smarter content strategy.</p>
+      
+      <div class="search-section">
+        <div class="search-bar">
+          <input 
+            type="text" 
+            class="search-input" 
+            placeholder="Paste YouTube video URL..."
+            id="videoUrlSearch"
+          />
+          <button class="search-btn" onclick="searchVideo()">Track Now</button>
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-number">10K+</div>
+          <div class="stat-label">Active Users</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">50K+</div>
+          <div class="stat-label">Videos Tracked</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">99.9%</div>
+          <div class="stat-label">Uptime</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features" id="features">
+    <div class="container">
+      <h2 class="section-title">Powerful Features</h2>
+      <p class="section-subtitle">Everything you need to dominate YouTube</p>
+      
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Real-Time Data</h3>
+          <p>Get live view counts, likes, and comments as they happen. No delays, instant updates.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📧</div>
+          <h3>Smart Notifications</h3>
+          <p>Receive email updates every 15 minutes. Only when your stats change. Zero spam.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Beautiful Analytics</h3>
+          <p>Interactive charts show growth trends. Understand your audience. Make data-driven decisions.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🚀</div>
+          <h3>Multiple Videos</h3>
+          <p>Track unlimited videos. Compare performance. Find your best content.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>Private & Secure</h3>
+          <p>Your data is encrypted. We never sell your information. Privacy guaranteed.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚙️</div>
+          <h3>Fully Customizable</h3>
+          <p>Set alerts. Choose notification frequency. Create your perfect setup.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <h2 class="section-title">Simple Pricing</h2>
+      <p class="section-subtitle">No hidden fees. Cancel anytime.</p>
+      
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <h3>Starter</h3>
+          <div class="price">Free</div>
+          <div class="price-period">forever</div>
+          <ul class="features-list">
+            <li>Track 3 videos</li>
+            <li>Email notifications</li>
+            <li>Basic charts</li>
+            <li>Community support</li>
+          </ul>
+          <a href="app.html" class="btn-price">Get Started</a>
+        </div>
+
+        <div class="pricing-card popular">
+          <div class="price-badge">Popular</div>
+          <h3>Pro</h3>
+          <div class="price">$4.99</div>
+          <div class="price-period">per month</div>
+          <ul class="features-list">
+            <li>Unlimited videos</li>
+            <li>All notifications</li>
+            <li>Advanced analytics</li>
+            <li>Priority support</li>
+            <li>No ads</li>
+          </ul>
+          <a href="app.html" class="btn-price">Start Free Trial</a>
+        </div>
+
+        <div class="pricing-card">
+          <h3>Business</h3>
+          <div class="price">$14.99</div>
+          <div class="price-period">per month</div>
+          <ul class="features-list">
+            <li>Everything in Pro</li>
+            <li>API access</li>
+            <li>Team accounts</li>
+            <li>Custom integrations</li>
+            <li>Dedicated support</li>
+          </ul>
+          <a href="app.html" class="btn-price">Contact Sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="container">
+      <h2>Ready to grow your YouTube channel?</h2>
+      <p>Join creators who are tracking and optimizing with real-time insights</p>
+      <a href="app.html" class="btn-primary">Launch App Now</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 YouTube View Tracker. Made with ❤️ for creators.</p>
+      <p>
+        <a href="#">Privacy</a> • 
+        <a href="#">Terms</a> • 
+        <a href="#">Contact</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    function searchVideo() {
+      const url = document.getElementById('videoUrlSearch').value.trim();
+      if (url) {
+        // Redirect to app with URL param or store in session
+        window.location.href = 'app.html?url=' + encodeURIComponent(url);
+      }
+    }
+
+    // Allow Enter key to search
+    document.getElementById('videoUrlSearch').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        searchVideo();
+      }
+    });
+  </script>
+</body>
+</html>

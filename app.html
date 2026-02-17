@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="YouTubeTracker App - Real-time YouTube video analytics and notifications.">
+  <title>YouTubeTracker App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #00d4ff;
+      --secondary: #0099ff;
+      --accent: #ff00ff;
+      --dark: #0a0e27;
+      --darker: #050812;
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--darker) 0%, #1a1f4a 50%, var(--darker) 100%);
+      color: #e0e0e0;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      backdrop-filter: blur(20px);
+      background: rgba(5, 8, 18, 0.8);
+      border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+      z-index: 1000;
+      padding: 1rem 0;
+    }
+
+    nav .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+      z-index: 2;
+      position: relative;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #a0a0a0;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Main Content */
+    main {
+      padding: 100px 2rem 2rem;
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+    }
+
+    .app-header {
+      margin-bottom: 3rem;
+    }
+
+    .app-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 900;
+    }
+
+    .app-header p {
+      color: #a0a0a0;
+      font-size: 1.1rem;
+    }
+
+    /* Add Video Section */
+    .add-video-section {
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      padding: 2rem;
+      border-radius: 20px;
+      margin-bottom: 3rem;
+      transition: all 0.3s ease;
+    }
+
+    .add-video-section:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 30px rgba(0, 212, 255, 0.15);
+    }
+
+    .add-video-section h2 {
+      color: #ffffff;
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      min-width: 250px;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 10px;
+      color: #e0e0e0;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: rgba(0, 212, 255, 0.05);
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+    }
+
+    input[type="text"]::placeholder {
+      color: #a0a0a0;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--dark);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-small {
+      padding: 0.7rem 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .btn-refresh {
+      background: linear-gradient(135deg, #00ff88, #00cc88);
+    }
+
+    .btn-chart {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+
+    .btn-delete {
+      background: linear-gradient(135deg, #ff6b6b, #ff4444);
+    }
+
+    .message {
+      padding: 1rem;
+      border-radius: 10px;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .error-message {
+      background: rgba(255, 107, 107, 0.1);
+      border: 1px solid rgba(255, 107, 107, 0.3);
+      color: #ff6b6b;
+    }
+
+    .success-message {
+      background: rgba(0, 255, 136, 0.1);
+      border: 1px solid rgba(0, 255, 136, 0.3);
+      color: #00ff88;
+    }
+
+    /* Videos Grid */
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .video-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .video-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 40px rgba(0, 212, 255, 0.2);
+      transform: translateY(-10px);
+    }
+
+    .video-thumbnail {
+      width: 100%;
+      height: 180px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-bottom: 2px solid rgba(0, 212, 255, 0.2);
+      position: relative;
+      font-size: 4rem;
+    }
+
+    .video-thumbnail img {
+      display: none;
+    }
+
+    .video-info {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .video-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+      height: 2.8em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .video-channel {
+      font-size: 0.9rem;
+      color: #a0a0a0;
+      margin-bottom: 1rem;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: #a0a0a0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+    }
+
+    .stat-value {
+      font-size: 1.3rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.7rem;
+      margin-top: auto;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: #a0a0a0;
+    }
+
+    .empty-state h2 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .empty-state p {
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      padding: 2.5rem;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .modal-header h2 {
+      color: var(--primary);
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #a0a0a0;
+      transition: color 0.3s ease;
+    }
+
+    .close-btn:hover {
+      color: var(--primary);
+    }
+
+    .chart-container {
+      position: relative;
+      height: 400px;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(255, 0, 255, 0.05));
+      border-radius: 15px;
+      border: 1px solid rgba(0, 212, 255, 0.1);
+    }
+
+    /* Footer */
+    footer {
+      padding: 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(0, 212, 255, 0.1);
+      color: #a0a0a0;
+      position: relative;
+      z-index: 2;
+      margin-top: 3rem;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: var(--accent);
+    }
+
+    @media (max-width: 768px) {
+      main {
+        padding: 80px 1rem 1rem;
+      }
+
+      .app-header h1 {
+        font-size: 1.8rem;
+      }
+
+      .input-group {
+        flex-direction: column;
+      }
+
+      input[type="text"] {
+        min-width: 100%;
+      }
+
+      .videos-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-content {
+        width: 95%;
+        padding: 1.5rem;
+      }
+
+      .chart-container {
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="container">
+      <a href="/" class="logo">YouTube View Tracker</a>
+      <a href="/" style="text-decoration: none; color: #a0a0a0; font-weight: 500; transition: color 0.3s; font-size: 0.95rem;">← Back to Home</a>
+    </div>
+  </nav>
+
+  <!-- Main App -->
+  <main>
+    <div class="container">
+      <div class="app-header">
+        <h1>📊 Track Your Videos</h1>
+        <p>Add YouTube videos and get real-time statistics with notifications every 15 minutes</p>
+      </div>
+
+      <!-- Add Video Section -->
+      <div class="add-video-section">
+        <h2>Add Video to Track</h2>
+        <div class="input-group">
+          <input 
+            type="text" 
+            id="videoUrl" 
+            placeholder="Paste YouTube URL (e.g., https://www.youtube.com/watch?v=...)"
+          />
+          <button class="btn" onclick="addVideo()">Add Video</button>
+        </div>
+        <div class="message error-message" id="errorMessage"></div>
+        <div class="message success-message" id="successMessage"></div>
+      </div>
+
+      <!-- Videos Grid -->
+      <div id="videosContainer"></div>
+    </div>
+  </main>
+
+  <!-- Chart Modal -->
+  <div class="modal" id="chartModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">View Count History</h2>
+        <button class="close-btn" onclick="closeModal()">✕</button>
+      </div>
+      <div class="chart-container">
+        <canvas id="detailChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 YouTubeTracker. Real-time YouTube analytics for creators.</p>
+  </footer>
+
+  <script>
+    const API_BASE = 'http://localhost:5000/api';
+    let detailChart = null;
+
+    function formatNumber(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    function showError(message) {
+      const errorEl = document.getElementById('errorMessage');
+      errorEl.textContent = message;
+      errorEl.classList.add('show');
+      setTimeout(() => errorEl.classList.remove('show'), 5000);
+    }
+
+    function showSuccess(message) {
+      const successEl = document.getElementById('successMessage');
+      successEl.textContent = message;
+      successEl.classList.add('show');
+      setTimeout(() => successEl.classList.remove('show'), 3000);
+    }
+
+    async function addVideo() {
+      const url = document.getElementById('videoUrl').value.trim();
+
+      if (!url) {
+        showError('Please enter a YouTube URL');
+        return;
+      }
+
+      const button = event.target;
+      button.disabled = true;
+      button.textContent = 'Adding...';
+
+      try {
+        const response = await fetch(`${API_BASE}/videos`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to add video');
+        }
+
+        showSuccess('Video added successfully!');
+        document.getElementById('videoUrl').value = '';
+        loadVideos();
+      } catch (error) {
+        showError(error.message);
+      } finally {
+        button.disabled = false;
+        button.textContent = 'Add Video';
+      }
+    }
+
+    async function loadVideos() {
+      try {
+        const response = await fetch(`${API_BASE}/videos`);
+        const videos = await response.json();
+
+        const container = document.getElementById('videosContainer');
+
+        if (videos.length === 0) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <h2>No videos yet</h2>
+              <p>Add your first YouTube video above to start tracking!</p>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = `
+          <div class="videos-grid">
+            ${videos.map(video => `
+              <div class="video-card">
+                <div class="video-thumbnail">
+                  🎬
+                </div>
+                <div class="video-info">
+                  <div class="video-title">${video.title}</div>
+                  <div class="video-channel">${video.channel_name}</div>
+                  
+                  <div class="stats-row">
+                    <div class="stat">
+                      <div class="stat-label">Views</div>
+                      <div class="stat-value">${formatNumber(video.latestStats.view_count)}</div>
+                    </div>
+                    <div class="stat">
+                      <div class="stat-label">Likes</div>
+                      <div class="stat-value">${formatNumber(video.latestStats.like_count)}</div>
+                    </div>
+                    <div class="stat">
+                      <div class="stat-label">Comments</div>
+                      <div class="stat-value">${formatNumber(video.latestStats.comment_count)}</div>
+                    </div>
+                  </div>
+
+                  <div class="card-actions">
+                    <button class="btn btn-small btn-refresh" onclick="refreshVideo('${video.video_id}')">Refresh</button>
+                    <button class="btn btn-small btn-chart" onclick="viewChart('${video.video_id}', '${video.title.replace(/'/g, "\\'")}')">Chart</button>
+                    <button class="btn btn-small btn-delete" onclick="deleteVideo('${video.video_id}')">Delete</button>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      } catch (error) {
+        showError('Failed to load videos');
+        console.error(error);
+      }
+    }
+
+    async function refreshVideo(videoId) {
+      try {
+        const response = await fetch(`${API_BASE}/videos/${videoId}/refresh`, {
+          method: 'POST'
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to refresh');
+        }
+
+        showSuccess('Video data refreshed!');
+        loadVideos();
+      } catch (error) {
+        showError(error.message);
+      }
+    }
+
+    async function viewChart(videoId, videoTitle) {
+      try {
+        const response = await fetch(`${API_BASE}/videos/${videoId}/history`);
+        const history = await response.json();
+
+        if (history.length === 0) {
+          showError('No history data available yet');
+          return;
+        }
+
+        const labels = history.map(item => new Date(item.timestamp).toLocaleString());
+        const viewCounts = history.map(item => item.view_count);
+        const likeCounts = history.map(item => item.like_count);
+
+        const ctx = document.getElementById('detailChart').getContext('2d');
+
+        if (detailChart) {
+          detailChart.destroy();
+        }
+
+        detailChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: '👁️ Views',
+                data: viewCounts,
+                borderColor: '#00d4ff',
+                backgroundColor: 'rgba(0, 212, 255, 0.15)',
+                borderWidth: 4,
+                fill: true,
+                tension: 0.5,
+                pointRadius: 8,
+                pointHoverRadius: 10,
+                pointBackgroundColor: '#00d4ff',
+                pointBorderColor: '#050812',
+                pointBorderWidth: 3,
+                segment: {
+                  borderColor: '#00d4ff'
+                }
+              },
+              {
+                label: '👍 Likes',
+                data: likeCounts,
+                borderColor: '#ff00ff',
+                backgroundColor: 'rgba(255, 0, 255, 0.15)',
+                borderWidth: 4,
+                fill: true,
+                tension: 0.5,
+                pointRadius: 8,
+                pointHoverRadius: 10,
+                pointBackgroundColor: '#ff00ff',
+                pointBorderColor: '#050812',
+                pointBorderWidth: 3,
+                segment: {
+                  borderColor: '#ff00ff'
+                }
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+              mode: 'index',
+              intersect: false
+            },
+            plugins: {
+              legend: {
+                display: true,
+                position: 'top',
+                labels: {
+                  color: '#e0e0e0',
+                  font: { size: 14, weight: 700, family: "'Inter', sans-serif" },
+                  padding: 20,
+                  usePointStyle: true,
+                  pointStyle: 'circle'
+                }
+              },
+              tooltip: {
+                backgroundColor: 'rgba(5, 8, 18, 0.9)',
+                borderColor: '#00d4ff',
+                borderWidth: 2,
+                titleColor: '#00d4ff',
+                bodyColor: '#e0e0e0',
+                padding: 12,
+                cornerRadius: 8,
+                titleFont: { size: 13, weight: 'bold' },
+                bodyFont: { size: 12 },
+                displayColors: true,
+                callbacks: {
+                  label: function(context) {
+                    let label = context.dataset.label || '';
+                    if (label) {
+                      label += ': ';
+                    }
+                    if (context.parsed.y !== null) {
+                      label += context.parsed.y.toLocaleString();
+                    }
+                    return label;
+                  }
+                }
+              },
+              filler: {
+                propagate: true
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: { 
+                  color: '#a0a0a0',
+                  font: { size: 11 },
+                  callback: function(value) {
+                    return value.toLocaleString();
+                  }
+                },
+                grid: { 
+                  color: 'rgba(0, 212, 255, 0.08)',
+                  lineWidth: 1,
+                  drawBorder: true
+                },
+                border: {
+                  color: 'rgba(0, 212, 255, 0.2)'
+                }
+              },
+              x: {
+                ticks: { 
+                  color: '#a0a0a0',
+                  font: { size: 10 },
+                  maxRotation: 45,
+                  minRotation: 0
+                },
+                grid: { 
+                  color: 'rgba(0, 212, 255, 0.08)',
+                  lineWidth: 1,
+                  drawBorder: true
+                },
+                border: {
+                  color: 'rgba(0, 212, 255, 0.2)'
+                }
+              }
+            }
+          }
+        });
+
+        document.getElementById('modalTitle').textContent = `${videoTitle} - Growth Trends`;
+        document.getElementById('chartModal').classList.add('show');
+      } catch (error) {
+        showError('Failed to load chart data');
+        console.error(error);
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('chartModal').classList.remove('show');
+    }
+
+    async function deleteVideo(videoId) {
+      if (!confirm('Are you sure you want to stop tracking this video?')) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/videos/${videoId}`, {
+          method: 'DELETE'
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to delete video');
+        }
+
+        showSuccess('Video removed from tracking');
+        loadVideos();
+      } catch (error) {
+        showError(error.message);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('videoUrl').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          addVideo();
+        }
+      });
+
+      loadVideos();
+      setInterval(loadVideos, 30000);
+    });
+
+    document.getElementById('chartModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>

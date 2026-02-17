@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="YouTubeTracker Features - Real-time analytics, notifications, charts, and more.">
+  <title>Features - YouTubeTracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #00d4ff;
+      --secondary: #0099ff;
+      --accent: #ff00ff;
+      --dark: #0a0e27;
+      --darker: #050812;
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--darker) 0%, #1a1f4a 50%, var(--darker) 100%);
+      color: #e0e0e0;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 1;
+      animation: gradientShift 8s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      backdrop-filter: blur(20px);
+      background: rgba(5, 8, 18, 0.8);
+      border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+      z-index: 1000;
+      padding: 1rem 0;
+    }
+
+    nav .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+      z-index: 2;
+      position: relative;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 3rem;
+      z-index: 2;
+      position: relative;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #a0a0a0;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    .btn-nav {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--dark);
+      padding: 0.7rem 1.8rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-nav:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 150px 2rem 100px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      font-weight: 900;
+      background: linear-gradient(120deg, var(--primary), var(--accent), var(--primary));
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientFlow 3s ease infinite;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #a0a0a0;
+      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Content */
+    .content {
+      padding: 80px 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .feature-item {
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      padding: 3rem;
+      border-radius: 20px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-item::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(0, 212, 255, 0.2), transparent);
+      border-radius: 50%;
+      transition: all 0.6s ease;
+    }
+
+    .feature-item:hover::before {
+      top: -30%;
+      right: -30%;
+    }
+
+    .feature-item:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 40px rgba(0, 212, 255, 0.2);
+      transform: translateY(-15px);
+    }
+
+    .feature-num {
+      display: inline-block;
+      font-size: 3rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    .feature-item h3 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+      font-weight: 700;
+      position: relative;
+      z-index: 2;
+    }
+
+    .feature-item p {
+      color: #a0a0a0;
+      line-height: 1.8;
+      position: relative;
+      z-index: 2;
+      font-size: 1.05rem;
+    }
+
+    .section-title {
+      font-size: 3rem;
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: #a0a0a0;
+      margin-bottom: 4rem;
+      font-size: 1.1rem;
+    }
+
+    /* Footer */
+    footer {
+      padding: 3rem 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(0, 212, 255, 0.1);
+      color: #a0a0a0;
+      position: relative;
+      z-index: 2;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: var(--accent);
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        gap: 1.5rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="container">
+      <a href="/" class="logo">YouTube View Tracker</a>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="app.html" class="btn-nav">Launch App</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Powerful Features</h1>
+    <p>Everything you need to dominate YouTube analytics</p>
+  </section>
+
+  <!-- Content -->
+  <section class="content">
+    <div class="container">
+      <h2 class="section-title">What You Get</h2>
+      <p class="section-subtitle">Advanced tools to track and grow your channel</p>
+
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-num">01</div>
+          <h3>Real-Time Analytics</h3>
+          <p>Get live view counts, likes, and comments as they happen. No delays, instant updates on your video performance.</p>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-num">02</div>
+          <h3>Smart Notifications</h3>
+          <p>Receive email updates every 15 minutes. Only when your stats change. Never miss important growth moments.</p>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-num">03</div>
+          <h3>Beautiful Charts</h3>
+          <p>Interactive graphs show growth trends over time. Understand your audience behavior and make data-driven decisions.</p>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-num">04</div>
+          <h3>Track Unlimited Videos</h3>
+          <p>Monitor as many videos as you want. Compare performance across your entire channel. Find your best content.</p>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-num">05</div>
+          <h3>Private & Secure</h3>
+          <p>Enterprise-grade encryption protects your data. We never sell your information. Your privacy is guaranteed.</p>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-num">06</div>
+          <h3>Fully Customizable</h3>
+          <p>Set custom alerts, choose notification frequency, and configure everything to match your workflow perfectly.</p>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-num">07</div>
+          <h3>Multi-Device Support</h3>
+          <p>Access from anywhere. Works seamlessly on desktop, tablet, and mobile. Responsive design for all devices.</p>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-num">08</div>
+          <h3>API Access</h3>
+          <p>Business plans include full API access. Build custom integrations and automate your workflow with our platform.</p>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-num">09</div>
+          <h3>Team Collaboration</h3>
+          <p>Invite team members, assign roles, and collaborate on channel growth. Perfect for agencies and teams.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 YouTubeTracker. Made for creators.</p>
+      <p>
+        <a href="#">Privacy</a> • 
+        <a href="#">Terms</a> • 
+        <a href="#">Contact</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
